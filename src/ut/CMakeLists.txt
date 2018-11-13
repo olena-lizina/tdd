@@ -14,16 +14,19 @@ set(GTEST_LIBS ${GTEST_ROOT}/lib/gmock${CMAKE_STATIC_LIBRARY_SUFFIX}
 		CACHE INTERNAL "${GTEST_LIBRARY_NAME} libraries")
 ####### 
 
+set(TEST_FILES_PATH "${CMAKE_SOURCE_DIR}/src")
+
 # Set headers/sources
 file (GLOB SOURCE_FILES "${PROJECT_SOURCE_DIR}/*.cpp")
 file (GLOB INCLUDE_FILES "${PROJECT_SOURCE_DIR}/*.hpp")
-file (GLOB EXTERNAL_SOURCE_FILES "${CMAKE_SOURCE_DIR}/src/src/inc" "${CMAKE_SOURCE_DIR}/src/src/src")
+file (GLOB EXTERNAL_SOURCE_FILES "${TEST_FILES_PATH}/inc/*.hpp" "${TEST_FILES_PATH}/src/*.cpp")
+list(REMOVE_ITEM EXTERNAL_SOURCE_FILES "${TEST_FILES_PATH}/src/main.cpp")
 source_group("test_files" FILES ${EXTERNAL_SOURCE_FILES})
 find_package(Threads REQUIRED)
 
 # include headers directories
 include_directories(${PROJECT_SOURCE_DIR})
-include_directories(${PROJECT_SOURCE_DIR}/../src/inc)
+include_directories(${TEST_FILES_PATH}/inc)
 include_directories(${GTEST_HEADER_DIRS})
                          
 # Build sources as library
